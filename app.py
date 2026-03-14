@@ -34,7 +34,7 @@ if prompt := st.chat_input("মাস্টার মশাইকে কিছ�
     except Exception as e:
         # যদি flash কাজ না করে তবে pro ভার্সন ট্রাই করবে
         try:
-            model = genai.GenerativeModel(model_name="gemini-pro")
+            model = genai.GenerativeModel('gemini-1.5-flash-8b')
             response = model.generate_content(prompt)
             with st.chat_message("assistant"):
                 st.markdown(response.text)
