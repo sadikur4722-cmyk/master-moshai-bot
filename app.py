@@ -25,7 +25,7 @@ if prompt := st.chat_input("মাস্টার মশাইকে কিছ�
 
     try:
         # আমরা সবচেয়ে স্টেবল মডেলটি ব্যবহার করছি
-        model = genai.GenerativeModel('gemini-1.0-pro')
+        model = genai.GenerativeModel('gemini-pro')
         response = model.generate_content(prompt)
         
         with st.chat_message("assistant"):
