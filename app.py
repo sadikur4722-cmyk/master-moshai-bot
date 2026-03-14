@@ -20,7 +20,7 @@ if prompt := st.chat_input("মাস্টার মশাইকে কিছ�
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-pro')
     response = model.generate_content(prompt)
     
     with st.chat_message("assistant"):
