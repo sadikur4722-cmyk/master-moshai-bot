@@ -6,7 +6,7 @@ try:
     api_key = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
 except:
-    st.error("API Key খুঁজে পাওয়া যাচ্ছে না। অনুগ্রহ করে Secrets চেক করুন।")
+    st.error("Secrets-এ API Key পাওয়া যায়নি!")
 
 st.title("👨‍🏫 Master Moshai AI")
 st.write("আপনার পড়াশোনা বা যেকোনো প্রশ্ন আমাকে করতে পারেন।")
@@ -24,12 +24,20 @@ if prompt := st.chat_input("মাস্টার মশাইকে কিছ�
         st.markdown(prompt)
 
     try:
-        # আমরা সবচেয়ে স্টেবল মডেলটি ব্যবহার করছি
-        model = genai.GenerativeModel('gemini-pro')
+        # এখানে আমরা নির্দিষ্ট ভার্সন উল্লেখ করে দিচ্ছি যাতে 404 Error না আসে
+        model = genai.GenerativeModel(model_name="gemini-1.5-flash")
         response = model.generate_content(prompt)
         
         with st.chat_message("assistant"):
             st.markdown(response.text)
         st.session_state.messages.append({"role": "assistant", "content": response.text})
     except Exception as e:
-        st.error(f"মাস্টার মশাই উত্তর দিতে পারছেন না। সমস্যা: {e}")
+        # যদি flash কাজ না করে তবে pro ভার্সন ট্রাই করবে
+        try:
+            model = genai.GenerativeModel(model_name="gemini-pro")
+            response = model.generate_content(prompt)
+            with st.chat_message("assistant"):
+                st.markdown(response.text)
+            st.session_state.messages.append({"role": "assistant", "content": response.text})
+        except Exception as e2:
+            st.error(f"মাস্টার মশাই কানেক্ট হতে পারছেন না। সমস্যা: {e2}")
