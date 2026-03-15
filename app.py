@@ -27,7 +27,8 @@ if prompt:
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    response = model.generate_content(prompt)
+    model = genai.GenerativeModel("gemini-1.5-flash")
+
 
     with st.chat_message("assistant"):
         st.markdown(response.text)
